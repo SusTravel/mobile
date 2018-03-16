@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { LoginButton, AccessToken } from 'react-native-fbsdk';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+
+import { userAuth } from '../actions/auth';
 
 const styles = StyleSheet.create({
     container: {
@@ -30,10 +33,9 @@ class LoginScreen extends Component {
             alert('login is cancelled.');
         } else {
             AccessToken.getCurrentAccessToken().then(data => {
-                alert(data.accessToken.toString());
-            });
-
-            Actions.main();
+                this.props.authenticateUser();
+                Actions.push('main');
+            });           
         }
     };
 
@@ -50,4 +52,15 @@ class LoginScreen extends Component {
     }
 }
 
-export default LoginScreen;
+const mapStateToProps = state => {
+    return {};
+};
+const mapDispatchToProps = dispatch => {
+    return {
+        authenticateUser: user => {
+            dispatch(userAuth());
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

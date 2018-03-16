@@ -1,48 +1,19 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import { Actions, Router, Stack, Scene } from 'react-native-router-flux';
 
-import { CountryScreen, LoginScreen, MainScreen, MapScreen } from './screens';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+
+import AppReducer from './reducers';
+import AppRouter from './AppRouter';
 
 class App extends Component {
-    authCheck() {
-        let isAuth = false;
-        if (isAuth === false) {
-            Actions.login();
-        }
-    }
-
-    loginAuthCheck() {
-        if (isAuth === true) {
-            Actions.main();
-        }
-    }
+    store = createStore(AppReducer);
 
     render() {
         return (
-            <Router>
-                <Stack key="root">
-                    <Scene
-                        key="main"
-                        component={MainScreen}
-                        title="Main"
-                        onEnter={this.authCheck}
-                    />
-                    <Scene
-                        key="login"
-                        component={LoginScreen}
-                        title="Login"
-                        hideNavBar={true}
-                        onEnter={this.loginAuthCheck}
-                    />
-                    <Scene
-                        key="country"
-                        component={CountryScreen}
-                        onEnter={this.authCheck}
-                    />
-                    <Scene key="map" component={MapScreen} onEnter={this.authCheck} />
-                </Stack>
-            </Router>
+            <Provider store={this.store}>
+                <AppRouter />
+            </Provider>
         );
     }
 }
