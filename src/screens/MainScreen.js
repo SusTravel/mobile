@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, Button } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { sessionService } from 'redux-react-native-session';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
     container: {
@@ -22,13 +24,42 @@ const styles = StyleSheet.create({
 });
 
 class MainScreen extends Component {
+    // @todo check this shit
+    componentDidMount() {
+        if (!this.props.authenticated) {
+            Actions.login();
+        }
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (!newProps.authenticated) {
+            Actions.login();
+        }
+    }
+
+    onPress = () => {
+        sessionService.deleteSession();
+    };
+    
     render() {
         return (
             <View style={styles.container}>
                 <Text>Current Scene: {this.props.title}</Text>
+                <Button
+                    onPress={this.onPress}
+                    title="Quit"
+                    color="#841584"
+                    accessibilityLabel="Learn more about this purple button"
+                />
             </View>
         );
     }
 }
 
-export default MainScreen;
+const mapStateToProps = ({ session }) => {
+    return {
+        authenticated: session.authenticated
+    };
+};
+
+export default connect(mapStateToProps)(MainScreen);

@@ -25,6 +25,12 @@ const styles = StyleSheet.create({
 });
 
 class LoginScreen extends Component {
+    componentWillReceiveProps(newProps) {
+        if (newProps.authenticated) {
+            Actions.main();
+        }
+    }
+
     loginFinished = (error, result) => {
         if (error) {
             alert('login has error: ' + result.error);
@@ -51,8 +57,10 @@ class LoginScreen extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {};
+const mapStateToProps = ({session}) => {
+    return {
+        authenticated: session.authenticated
+    };
 };
 const mapDispatchToProps = dispatch => {
     return {
@@ -60,7 +68,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(sessionService.saveSession(user));
         },
         quitUser: function() {
-            dispatch(sessionService.deleteSession());    
+            sessionService.deleteSession();
         }
     };
 };
