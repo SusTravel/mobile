@@ -2,19 +2,28 @@ import React, { Component } from 'react';
 import { Actions, Router, Stack, Scene } from 'react-native-router-flux';
 import { CountryScreen, LoginScreen, MainScreen, MapScreen } from './screens';
 import { connect } from 'react-redux';
+import { sessionService } from 'redux-react-native-session';
 
 class AppRouter extends Component {
     loginAuthCheck = () => {
-        if (this.props.authenticated) {
-            Actions.main();
-        }
-    }
+        let session = sessionService.loadSession();
+        
+        session.then(response => {
+            if (this.props.authenticated) {
+                Actions.main();
+            }
+        });
+    };
 
     authCheck = () => {
-        if (!this.props.authenticated) {
-            Actions.login();
-        }
-    }
+        let session = sessionService.loadSession();
+
+        session.then(response => {
+            if (!this.props.authenticated) {
+                Actions.login();
+            }
+        });
+    };
 
     render() {
         return (
@@ -25,6 +34,7 @@ class AppRouter extends Component {
                         component={MainScreen}
                         title="Main"
                         onEnter={this.authCheck}
+                        hideNavBar={true}
                     />
                     <Scene
                         key="login"
@@ -45,10 +55,10 @@ class AppRouter extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
-        authenticated: state.auth.authenticated
-    }
-}
+        authenticated: state.session.authenticated
+    };
+};
 
 export default connect(mapStateToProps)(AppRouter);

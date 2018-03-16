@@ -3,8 +3,7 @@ import { LoginButton, AccessToken } from 'react-native-fbsdk';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-
-import { userAuth } from '../actions/auth';
+import { sessionService } from 'redux-react-native-session';
 
 const styles = StyleSheet.create({
     container: {
@@ -33,9 +32,9 @@ class LoginScreen extends Component {
             alert('login is cancelled.');
         } else {
             AccessToken.getCurrentAccessToken().then(data => {
-                this.props.authenticateUser();
+                this.props.authenticateUser({ login: 'some', name: 'user' });
                 Actions.push('main');
-            });           
+            });
         }
     };
 
@@ -45,7 +44,7 @@ class LoginScreen extends Component {
                 <LoginButton
                     publishPermissions={['publish_actions']}
                     onLoginFinished={this.loginFinished}
-                    onLogoutFinished={() => alert('logout.')}
+                    onLogoutFinished={this.props.quitUser}
                 />
             </View>
         );
@@ -58,7 +57,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         authenticateUser: user => {
-            dispatch(userAuth());
+            dispatch(sessionService.saveSession(user));
+        },
+        quitUser: function() {
+            dispatch(sessionService.deleteSession());    
         }
     };
 };

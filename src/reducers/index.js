@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import authReducer from './auth';
+import { sessionReducer } from 'redux-react-native-session';
 
 export default (AppReducer = combineReducers({
-    auth: authReducer
+    session: sessionReducer
 }));
