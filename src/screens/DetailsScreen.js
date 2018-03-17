@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
     Platform,
     StyleSheet,
@@ -14,6 +15,7 @@ import { Button, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import BillingService from '../services/BillingService';
+import { fetchPlaces } from '../actions/Places';
 
 const styles = StyleSheet.create({
     container: {
@@ -44,6 +46,16 @@ const styles = StyleSheet.create({
 
 class DetailsScreen extends Component {
     onQrPress = details => {
+        let id = details.id;
+        let longitude = details.location.coordinates[0];
+        let latitude = details.location.coordinates[1];
+
+        BillingService.sendQRCodeResult(id, longitude, latitude).then(success => {
+            this.props.fetchPlaces(longitude, latitude);
+            alert('Success');
+            Actions.details(details);
+        });
+
         let passProps = {
             onRead: e => {
                 let id = details.id;
@@ -51,6 +63,7 @@ class DetailsScreen extends Component {
                 let latitude = details.location.coordinates[1];
 
                 BillingService.sendQRCodeResult(id, longitude, latitude).then(success => {
+                    this.props.fetchPlaces(longitude, latitude);
                     alert('Success');
                     Actions.details(details);
                 });
@@ -106,4 +119,16 @@ class DetailsScreen extends Component {
     }
 }
 
-export default DetailsScreen;
+const mapStateToProps = () => {
+    return {};
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchPlaces: (longitude, latitude) => {
+            return dispatch(fetchPlaces(longitude, latitude));
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailsScreen);
