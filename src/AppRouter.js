@@ -1,15 +1,30 @@
 import React, { Component } from 'react';
-import { Actions, Router, Stack, Scene } from 'react-native-router-flux';
+import { Actions, Router, Stack, Scene  } from 'react-native-router-flux';
+import { Button, Icon } from 'native-base';
 import {
     CountryScreen,
     LoginScreen,
     MainScreen,
     MapScreen,
-    ProfileScreen
+    ProfileScreen,
+    DetailsScreen,
+    PathScreen
 } from './screens';
+
 import { sessionService } from 'redux-react-native-session';
+import QRCodeScanner from 'react-native-qrcode-scanner';
 
 const AppRouter = props => {
+    renderMenuButton = () => {
+        return <Button
+            transparent
+            onPress={() => {
+                Actions.profile();
+            }}
+        >
+            <Icon name="menu" />
+        </Button>;
+    }
     return (
         <Router>
             <Stack key="root">
@@ -25,12 +40,25 @@ const AppRouter = props => {
                     component={MainScreen}
                     title="Main"
                     onEnter={this.authCheck}
-                    hideNavBar={true}
+                    left={() => null}
+                    right={renderMenuButton}
                 />
 
-                <Scene key="country" component={CountryScreen} onEnter={this.authCheck} />
-                <Scene key="map" component={MapScreen} onEnter={this.authCheck} />
-                <Scene key="profile" component={ProfileScreen} onEnter={this.authCheck} />
+                <Scene key="country" component={CountryScreen} />
+                <Scene key="map" component={MapScreen} onEnter={this.authCheck} right={() => (
+                    <Button
+                        transparent
+                        onPress={() => {
+                            Actions.profile();
+                        }}
+                    >
+                        <Icon name="menu" />
+                    </Button>
+                )}/>
+                <Scene key="profile" component={ProfileScreen} right={renderMenuButton} />
+                <Scene key="details" component={DetailsScreen} right={renderMenuButton} />
+                <Scene key="qrCode" component={QRCodeScanner} />
+                <Scene key="path" component={PathScreen} />
             </Stack>
         </Router>
     );

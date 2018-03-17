@@ -3,7 +3,7 @@ import axios from 'react-native-axios';
 class ApiCallerService {
     constructor() {
         this.apiCaller = axios.create({
-            baseURL: 'http://192.168.1.55:8080/sustrav/',
+            baseURL: 'http://ec2-18-197-37-132.eu-central-1.compute.amazonaws.com:8080/sustrav/',
             timeout: 1000
         });
     }
@@ -17,11 +17,11 @@ class ApiCallerService {
     }
 
     setAuthorizationHeader(token) {
-        this.setAuthorizationHeader('X-AUTH-TOKEN', token);
+        this.setHeader('X-AUTH-TOKEN', token);
     }
 
     setHeader(name, value) {
-        this.apiCaller.defaults.header.common[name] = value;
+        this.apiCaller.defaults.headers.common[name] = value;
     }
 }
 
