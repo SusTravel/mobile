@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Actions, Router, Stack, Scene } from 'react-native-router-flux';
+import { Button, Icon } from 'native-base';
 import {
     CountryScreen,
     LoginScreen,
@@ -25,7 +26,12 @@ const AppRouter = props => {
                     component={MainScreen}
                     title="Main"
                     onEnter={this.authCheck}
-                    hideNavBar={true}
+                    left={() => null}
+                    right={() => (
+                        <Button transparent>
+                            <Icon name="menu" />
+                        </Button>
+                    )}
                 />
 
                 <Scene key="country" component={CountryScreen} onEnter={this.authCheck} />

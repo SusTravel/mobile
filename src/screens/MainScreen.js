@@ -50,45 +50,47 @@ class MainScreen extends Component {
 
     onImagePress = () => {
         Actions.country();
-    }
+    };
 
     render() {
         return (
-            <ScrollView style={{ top: 30 }}>
-                <View style={styles.container}>
-                    <Text style={styles.welcome}>
-                        What is your next traveling destination?
-                    </Text>
-                    <Text style={styles.instructions}>
-                        Start entering name of the place you are about to go
-                    </Text>
-                    <Button
-                        onPress={this.onQuitPress}
-                        title="Quit"
-                        color="#841584"
-                        accessibilityLabel="Learn more about this purple button"
-                    />
+            <React.Fragment>
+                <ScrollView style={{ top: 30 }}>
+                    <View style={styles.container}>
+                        <Text style={styles.welcome}>
+                            What is your next traveling destination?
+                        </Text>
+                        <Text style={styles.instructions}>
+                            Start entering name of the place you are about to go
+                        </Text>
+                        <Button
+                            onPress={this.onQuitPress}
+                            title="Quit"
+                            color="#841584"
+                            accessibilityLabel="Learn more about this purple button"
+                        />
 
-                    {this.props.continents.map((continent, i) => {
-                        return (
-                            <React.Fragment key={'fragment' + i}>
-                                <Text key={'text' + i}>{continent.name}</Text>
-                                <TouchableHighlight onPress={this.onImagePress}>
-                                    <Image
-                                        key={'image' + i}
-                                        style={styles.image}
-                                        source={{
-                                            uri:
-                                                'https://s3.eu-central-1.amazonaws.com/sustravel/images/' +
-                                                continent.imageId
-                                        }}
-                                    />
-                                </TouchableHighlight>
-                            </React.Fragment>
-                        );
-                    })}
-                </View>
-            </ScrollView>
+                        {this.props.continents.map((continent, i) => {
+                            return (
+                                <React.Fragment key={'fragment' + i}>
+                                    <Text key={'text' + i}>{continent.name}</Text>
+                                    <TouchableHighlight onPress={this.onImagePress}>
+                                        <Image
+                                            key={'image' + i}
+                                            style={styles.image}
+                                            source={{
+                                                uri:
+                                                    'https://s3.eu-central-1.amazonaws.com/sustravel/images/' +
+                                                    continent.imageId
+                                            }}
+                                        />
+                                    </TouchableHighlight>
+                                </React.Fragment>
+                            );
+                        })}
+                    </View>
+                </ScrollView>
+            </React.Fragment>
         );
     }
 }
