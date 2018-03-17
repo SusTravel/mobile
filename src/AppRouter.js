@@ -28,7 +28,12 @@ const AppRouter = props => {
                     onEnter={this.authCheck}
                     left={() => null}
                     right={() => (
-                        <Button transparent>
+                        <Button
+                            transparent
+                            onPress={() => {
+                                Actions.profile();
+                            }}
+                        >
                             <Icon name="menu" />
                         </Button>
                     )}

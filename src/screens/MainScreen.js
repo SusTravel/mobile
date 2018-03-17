@@ -10,7 +10,6 @@ import {
     TouchableHighlight
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { sessionService } from 'redux-react-native-session';
 import { connect } from 'react-redux';
 import { fetchContinents } from '../actions/Continents';
 
@@ -43,11 +42,6 @@ class MainScreen extends Component {
         this.props.fetchContinents();
     }
 
-    onQuitPress = () => {
-        sessionService.deleteSession();
-        Actions.login();
-    };
-
     onImagePress = () => {
         Actions.country();
     };
@@ -63,12 +57,6 @@ class MainScreen extends Component {
                         <Text style={styles.instructions}>
                             Start entering name of the place you are about to go
                         </Text>
-                        <Button
-                            onPress={this.onQuitPress}
-                            title="Quit"
-                            color="#841584"
-                            accessibilityLabel="Learn more about this purple button"
-                        />
 
                         {this.props.continents.map((continent, i) => {
                             return (
