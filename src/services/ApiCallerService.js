@@ -3,7 +3,7 @@ import axios from 'react-native-axios';
 class ApiCallerService {
     constructor() {
         this.apiCaller = axios.create({
-            baseURL: 'http://192.168.1.55:8080/sustrav/',
+            baseURL: 'http://ec2-18-197-37-132.eu-central-1.compute.amazonaws.com:8080/sustrav/',
             timeout: 1000
         });
     }
