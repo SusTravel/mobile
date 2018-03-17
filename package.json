@@ -17,6 +17,7 @@
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
     "redux-react-native-session": "^1.0.5",
+    "redux-thunk": "^2.2.0",
     "xcode": "^1.0.0"
   },
   "devDependencies": {

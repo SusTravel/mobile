@@ -4,6 +4,7 @@ import { Platform, StyleSheet, Text, View, ImageBackground } from 'react-native'
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { sessionService } from 'redux-react-native-session';
+import { login } from '../actions/Session';
 
 const styles = StyleSheet.create({
     container: {
@@ -11,17 +12,16 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
     backgroundImage: {
         top: 100,
         resizeMode: 'cover',
         height: 400
-        
     },
     buttonContainer: {
         bottom: 50
-    },
+    }
 });
 
 class LoginScreen extends Component {
@@ -38,7 +38,7 @@ class LoginScreen extends Component {
             alert('login is cancelled.');
         } else {
             AccessToken.getCurrentAccessToken().then(data => {
-                this.props.authenticateUser({ login: 'some', name: 'user' });
+                this.props.authenticateUser(data.accessToken);
                 Actions.push('main');
             });
         }
@@ -51,7 +51,7 @@ class LoginScreen extends Component {
                 style={styles.container}
                 imageStyle={styles.backgroundImage}
             >
-                <View style={styles.buttonContainer} >
+                <View style={styles.buttonContainer}>
                     <LoginButton
                         publishPermissions={['publish_actions']}
                         onLoginFinished={this.loginFinished}
@@ -71,8 +71,8 @@ const mapStateToProps = ({ session }) => {
 };
 const mapDispatchToProps = dispatch => {
     return {
-        authenticateUser: user => {
-            dispatch(sessionService.saveSession(user));
+        authenticateUser: fbAuthToken => {
+            dispatch(login(fbAuthToken));
         },
         quitUser: function() {
             sessionService.deleteSession();
