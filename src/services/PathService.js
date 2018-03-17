@@ -22,7 +22,9 @@ class PathService {
 
                         steps.push({
                             mode: record.mode,
-                            duration: record.duration || 0
+                            duration: record.duration || 0,
+                            name: record.routeShortName || '',
+                            longName: record.routeLongName || ''
                         });
                     });
                     routes.push({fullRoute, steps});

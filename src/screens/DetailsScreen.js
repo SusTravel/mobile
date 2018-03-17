@@ -42,6 +42,13 @@ const styles = StyleSheet.create({
     },
     qrCode: {
         flex: 1
+    },
+    routes: {
+        flex: 1,
+        justifyContent: 'flex-start',
+    },
+    path: {
+        top: 5
     }
 });
 
@@ -123,13 +130,46 @@ class DetailsScreen extends Component {
                     <View>
                         <Text style={styles.description}>{details.description}</Text>
                     </View>
+                    <Text style={styles.title}>How to get here?</Text>
+
+
+                    <View style={styles.routes}>
+                    {this.props.pathes.map((pathData, i) => {
+                        return (
+                            <View style={styles.path}>
+                                <Text style={styles.title}>Path {i + 1}</Text>
+                                {pathData.steps.map((step, m) => {
+                                    switch (step.mode) {
+                                        case 'WALK':
+                                            return (
+                                                <Text>
+                                                    {m + 1})
+                                                    Walt to bus stop
+                                                </Text>
+                                            );
+
+                                        case 'BUS':
+                                        case 'TRAIN':
+                                            return (
+                                                <Text>
+                                                    {m + 1})
+                                                    Take a bus
+                                                    {step.name + ' (' + step.longName + ')'}
+                                                </Text>
+                                            );
+                                    }
+                                })}
+                            </View>
+                        );
+                    })}
+                    </View>
                 </View>
             </ScrollView>
         );
     }
 }
 
-const mapStateToProps = ({Location, Pathes}) => {
+const mapStateToProps = ({ Location, Pathes }) => {
     console.log(Pathes);
     return {
         pointFrom:
