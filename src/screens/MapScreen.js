@@ -3,6 +3,7 @@ import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 import { Platform, StyleSheet, Text, View, Button } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { fetchLocation } from '../actions/Location';
 
 const styles = StyleSheet.create({
     container: {
@@ -22,26 +23,47 @@ const styles = StyleSheet.create({
       bottom: 0,
     },
   });
-  
+
 class MapScreen extends Component {
     componentDidMount() {
         this.continentName = Actions.state.routes[Actions.state.index].params.name;
 
-        navigator.geolocation.getCurrentPosition(console.log, console.log);
+        this.props.fetchLocation();
     }
     render() {
+        let location = this.props.location;
+
+        if (!location.coords) {
+            return null;
+        }
+
         return (
             <MapView
                 style={styles.map}
                 initialRegion={{
-                    latitude: 37.78825,
-                    longitude: -122.4324,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421
+                    latitude: location.coords ? location.coords.longitude : 37.78825,
+                    longitude: location.coords ? location.coords.latitude : -122.4324,
+                    latitudeDelta: 0.4222,
+                    longitudeDelta: 0.3821
                 }}
             />
         );
     }
 }
 
-export default MapScreen;
+const mapStateToProps = ({ session, Location }) => {
+    return {
+        authenticated: session.authenticated,
+        location: Location.location
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchLocation: () => {
+            return dispatch(fetchLocation());
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapScreen);
