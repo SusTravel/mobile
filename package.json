@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "prepare": "patch-package"
   },
   "dependencies": {
     "adm-zip": "^0.4.7",
@@ -14,6 +15,7 @@
     "react-native": "0.54.2",
     "react-native-axios": "^0.17.1",
     "react-native-fbsdk": "^0.7.0",
+    "react-native-maps": "^0.20.1",
     "react-native-router-flux": "^4.0.0-beta.28",
     "react-native-vector-icons": "^4.5.0",
     "react-redux": "^5.0.7",
@@ -26,6 +28,7 @@
     "babel-jest": "22.4.1",
     "babel-preset-react-native": "4.0.0",
     "jest": "22.4.2",
+    "patch-package": "^5.1.1",
     "react-test-renderer": "^16.3.0-alpha.1"
   },
   "jest": {
