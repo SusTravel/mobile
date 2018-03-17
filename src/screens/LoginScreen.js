@@ -5,6 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { sessionService } from 'redux-react-native-session';
 import { login } from '../actions/Session';
+import ApiCallerService from '../services/ApiCallerService';
 
 const styles = StyleSheet.create({
     container: {
@@ -25,8 +26,8 @@ const styles = StyleSheet.create({
 });
 
 class LoginScreen extends Component {
-    componentWillReceiveProps(newProps) {
-        if (newProps.authenticated) {
+    componentWillUpdate(nextProps, nextState) {
+        if (nextProps.authenticated) {
             Actions.main();
         }
     }
@@ -38,8 +39,7 @@ class LoginScreen extends Component {
             alert('login is cancelled.');
         } else {
             AccessToken.getCurrentAccessToken().then(data => {
-                this.props.authenticateUser(data.accessToken);
-                Actions.push('main');
+                return this.props.authenticateUser(data.accessToken);
             });
         }
     };
@@ -66,13 +66,15 @@ class LoginScreen extends Component {
 
 const mapStateToProps = ({ session }) => {
     return {
-        authenticated: session.authenticated
+        authenticated: session.authenticated,
+        token: session.user
     };
 };
+
 const mapDispatchToProps = dispatch => {
     return {
         authenticateUser: fbAuthToken => {
-            dispatch(login(fbAuthToken));
+            return dispatch(login(fbAuthToken));
         },
         quitUser: function() {
             sessionService.deleteSession();
