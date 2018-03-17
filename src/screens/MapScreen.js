@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Platform, StyleSheet, Text, View, Button } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 class MapScreen extends Component {
     componentDidMount() {
-        console.log(Actions.state.routes);
+        this.continentName = Actions.state.routes[Actions.state.index].params.name;
+
+        navigator.geolocation.getCurrentPosition(
+            console.log,
+            console.log
+        );
     }
     render() {
-        return 'Map screen';
+        return (
+            <View>
+                <Text>Privet</Text>
+            </View>
+        );
     }
 }
 
