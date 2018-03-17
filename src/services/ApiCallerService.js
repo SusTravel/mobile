@@ -17,11 +17,11 @@ class ApiCallerService {
     }
 
     setAuthorizationHeader(token) {
-        this.setAuthorizationHeader('X-AUTH-TOKEN', token);
+        this.setHeader('X-AUTH-TOKEN', token);
     }
 
     setHeader(name, value) {
-        this.apiCaller.defaults.header.common[name] = value;
+        this.apiCaller.defaults.headers.common[name] = value;
     }
 }
 

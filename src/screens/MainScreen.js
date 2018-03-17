@@ -3,6 +3,7 @@ import { Platform, StyleSheet, Text, View, Button } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { sessionService } from 'redux-react-native-session';
 import { connect } from 'react-redux';
+import { fetchContinents } from '../actions/Continents';
 
 const styles = StyleSheet.create({
     container: {
@@ -24,15 +25,24 @@ const styles = StyleSheet.create({
 });
 
 class MainScreen extends Component {
+    componentDidMount() {
+        this.props.fetchContinents();
+    }
+
     onPress = () => {
         sessionService.deleteSession();
         Actions.login();
     };
-    
+
     render() {
         return (
             <View style={styles.container}>
-                <Text>Current Scene: {this.props.title}</Text>
+                <Text style={styles.welcome}>
+                    What is your next traveling destination?
+                </Text>
+                <Text style={styles.instructions}>
+                    Start entering name of the place you are about to go
+                </Text>
                 <Button
                     onPress={this.onPress}
                     title="Quit"
@@ -44,10 +54,20 @@ class MainScreen extends Component {
     }
 }
 
-const mapStateToProps = ({ session }) => {
+const mapStateToProps = ({ session, Continents }) => {
+    console.log(Continents);
     return {
-        authenticated: session.authenticated
+        authenticated: session.authenticated,
+        continents: Continents.continents || []
     };
 };
 
-export default connect(mapStateToProps)(MainScreen);
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchContinents: () => {
+            return dispatch(fetchContinents());
+        }
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);
