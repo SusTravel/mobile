@@ -7,7 +7,8 @@ import {
     MainScreen,
     MapScreen,
     ProfileScreen,
-    DetailsScreen
+    DetailsScreen,
+    PathScreen
 } from './screens';
 
 import { sessionService } from 'redux-react-native-session';
@@ -57,6 +58,7 @@ const AppRouter = props => {
                 <Scene key="profile" component={ProfileScreen} right={renderMenuButton} />
                 <Scene key="details" component={DetailsScreen} right={renderMenuButton} />
                 <Scene key="qrCode" component={QRCodeScanner} />
+                <Scene key="path" component={PathScreen} />
             </Stack>
         </Router>
     );

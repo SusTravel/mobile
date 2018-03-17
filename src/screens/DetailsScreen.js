@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     },
     routes: {
         flex: 1,
-        justifyContent: 'flex-start',
+        justifyContent: 'flex-start'
     },
     path: {
         top: 5
@@ -60,6 +60,10 @@ class DetailsScreen extends Component {
         let pointFrom = this.props.pointFrom;
 
         this.props.fetchPath(pointFrom, pointTo);
+    }
+
+    onMapPress = (pathes) => {
+        Actions.path(pathes);
     }
 
     onQrPress = details => {
@@ -130,38 +134,43 @@ class DetailsScreen extends Component {
                     <View>
                         <Text style={styles.description}>{details.description}</Text>
                     </View>
-                    <Text style={styles.title}>How to get here?</Text>
-
+                    <Text style={styles.title}>
+                        How to get here?&nbsp;&nbsp;
+                        <TouchableHighlight onPress={() => this.onMapPress(this.props.pathes)}>
+                            <FontAwesome style={{ fontSize: 32 }}>
+                                {Icons.map}
+                            </FontAwesome>
+                        </TouchableHighlight>
+                    </Text>
 
                     <View style={styles.routes}>
-                    {this.props.pathes.map((pathData, i) => {
-                        return (
-                            <View style={styles.path}>
-                                <Text style={styles.title}>Path {i + 1}</Text>
-                                {pathData.steps.map((step, m) => {
-                                    switch (step.mode) {
-                                        case 'WALK':
-                                            return (
-                                                <Text>
-                                                    {m + 1})
-                                                    Walt to bus stop
-                                                </Text>
-                                            );
+                        {this.props.pathes.map((pathData, i) => {
+                            return (
+                                <View style={styles.path}>
+                                    <Text style={styles.title}>Path {i + 1}</Text>
+                                    {pathData.steps.map((step, m) => {
+                                        switch (step.mode) {
+                                            case 'WALK':
+                                                return (
+                                                    <Text>{m + 1}) Walt to bus stop</Text>
+                                                );
 
-                                        case 'BUS':
-                                        case 'TRAIN':
-                                            return (
-                                                <Text>
-                                                    {m + 1})
-                                                    Take a bus
-                                                    {step.name + ' (' + step.longName + ')'}
-                                                </Text>
-                                            );
-                                    }
-                                })}
-                            </View>
-                        );
-                    })}
+                                            case 'BUS':
+                                            case 'TRAIN':
+                                                return (
+                                                    <Text>
+                                                        {m + 1}) Take a bus
+                                                        {step.name +
+                                                            ' (' +
+                                                            step.longName +
+                                                            ')'}
+                                                    </Text>
+                                                );
+                                        }
+                                    })}
+                                </View>
+                            );
+                        })}
                     </View>
                 </View>
             </ScrollView>
