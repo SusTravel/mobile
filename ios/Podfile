@@ -24,6 +24,8 @@ target 'SusTravel' do
   
     #pod 'GoogleMaps'  # Remove this line if you don't want to support Google Maps on iOS
     #pod 'react-native-google-maps', path: rn_maps_path  # Remove this line if you don't want to support Google Maps on iOS
+    pod 'react-native-camera', :path => '../node_modules/react-native-camera'
+
   end
   
   post_install do |installer|

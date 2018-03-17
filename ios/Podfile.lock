@@ -1,6 +1,14 @@
 PODS:
   - React (0.54.2):
     - React/Core (= 0.54.2)
+  - react-native-camera (1.0.2):
+    - React
+    - react-native-camera/RCT (= 1.0.2)
+    - react-native-camera/RN (= 1.0.2)
+  - react-native-camera/RCT (1.0.2):
+    - React
+  - react-native-camera/RN (1.0.2):
+    - React
   - react-native-maps (0.20.1):
     - React
   - React/Core (0.54.2):
@@ -34,6 +42,7 @@ PODS:
   - yoga (0.54.2.React)
 
 DEPENDENCIES:
+  - react-native-camera (from `../node_modules/react-native-camera`)
   - react-native-maps (from `../node_modules/react-native-maps`)
   - React/Core (from `../node_modules/react-native`)
   - React/RCTActionSheet (from `../node_modules/react-native`)
@@ -51,6 +60,8 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   React:
     :path: ../node_modules/react-native
+  react-native-camera:
+    :path: ../node_modules/react-native-camera
   react-native-maps:
     :path: ../node_modules/react-native-maps
   yoga:
@@ -58,9 +69,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   React: c237e42de9c70e5cac6eeb52b4cfd3a0910c1f00
+  react-native-camera: ab22041dcf0403d88f2ae4b9ea3ed2644e680423
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: f5f848f30496b37c999f981e167a4373058eec02
+PODFILE CHECKSUM: 0aef1a132efd2016ef96c7cf178e7e65781fbebe
 
 COCOAPODS: 1.4.0

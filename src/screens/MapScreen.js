@@ -47,8 +47,8 @@ class MapScreen extends Component {
             <MapView
                 style={styles.map}
                 initialRegion={{
-                    latitude: location.coords ? location.coords.longitude : 37.78825,
-                    longitude: location.coords ? location.coords.latitude : -122.4324,
+                    latitude: location.coords ? location.coords.latitude : 37.78825,
+                    longitude: location.coords ? location.coords.longitude : -122.4324,
                     latitudeDelta: 0.4222,
                     longitudeDelta: 0.3821
                 }}

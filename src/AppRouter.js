@@ -9,7 +9,9 @@ import {
     ProfileScreen,
     DetailsScreen
 } from './screens';
+
 import { sessionService } from 'redux-react-native-session';
+import QRCodeScanner from 'react-native-qrcode-scanner';
 
 const AppRouter = props => {
     renderMenuButton = () => {
@@ -54,6 +56,7 @@ const AppRouter = props => {
                 )}/>
                 <Scene key="profile" component={ProfileScreen} right={renderMenuButton} />
                 <Scene key="details" component={DetailsScreen} right={renderMenuButton} />
+                <Scene key="qrCode" component={QRCodeScanner} />
             </Stack>
         </Router>
     );

@@ -6,11 +6,14 @@ import {
     View,
     ImageBackground,
     Image,
-    ScrollView
+    ScrollView,
+    TouchableHighlight,
+    TouchableOpacity
 } from 'react-native';
 import { Button, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import BillingService from '../services/BillingService';
 
 const styles = StyleSheet.create({
     container: {
@@ -40,10 +43,35 @@ const styles = StyleSheet.create({
 });
 
 class DetailsScreen extends Component {
+    onQrPress = details => {
+        let passProps = {
+            onRead: e => {
+                let id = details.id;
+                let longitude = details.location.coordinates[0];
+                let latitude = details.location.coordinates[1];
+
+                BillingService.sendQRCodeResult(id, longitude, latitude).then(success => {
+                    alert('Success');
+                    Actions.details(details);
+                });
+            },
+            topContent: (
+                <Text style={styles.centerText}>
+                    You've found a QR code of the place? Cool, scan it!
+                </Text>
+            ),
+            bottomContent: (
+                <TouchableOpacity style={styles.buttonTouchable}>
+                    <Text style={styles.buttonText}>OK. Got it!</Text>
+                </TouchableOpacity>
+            )
+        };
+
+        Actions.qrCode(passProps);
+    };
+
     render() {
         let details = Actions.state.routes[Actions.state.index].params;
-
-        console.log(details);
 
         return (
             <ScrollView>
@@ -52,9 +80,11 @@ class DetailsScreen extends Component {
                     <View>
                         <Text style={styles.description}>
                             Your QR code is in the castle! Neil it! &nbsp; &nbsp; &nbsp;
-                            <FontAwesome style={{ fontSize: 32 }}>
-                                {Icons.qrcode}
-                            </FontAwesome>
+                            <TouchableHighlight onPress={() => this.onQrPress(details)}>
+                                <FontAwesome style={{ fontSize: 32 }}>
+                                    {Icons.qrcode}
+                                </FontAwesome>
+                            </TouchableHighlight>
                         </Text>
                     </View>
                     <View>
@@ -68,9 +98,7 @@ class DetailsScreen extends Component {
                         />
                     </View>
                     <View>
-                        <Text style={styles.description}>
-                            {details.description}
-                        </Text>
+                        <Text style={styles.description}>{details.description}</Text>
                     </View>
                 </View>
             </ScrollView>
