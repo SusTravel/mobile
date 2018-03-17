@@ -42,8 +42,8 @@ class MainScreen extends Component {
         this.props.fetchContinents();
     }
 
-    onImagePress = () => {
-        Actions.country();
+    onImagePress = continentName => {
+        Actions.map({ name: continentName });
     };
 
     render() {
@@ -62,7 +62,9 @@ class MainScreen extends Component {
                             return (
                                 <React.Fragment key={'fragment' + i}>
                                     <Text key={'text' + i}>{continent.name}</Text>
-                                    <TouchableHighlight onPress={this.onImagePress}>
+                                    <TouchableHighlight
+                                        onPress={() => this.onImagePress(continent.name)}
+                                    >
                                         <Image
                                             key={'image' + i}
                                             style={styles.image}
