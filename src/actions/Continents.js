@@ -17,7 +17,7 @@ const fetchContinents = () => {
     return async (dispatch) => {
         try {
             dispatch(requestContinents());
-            continents = (await ContinentsService.getContinents()).data;
+            let continents = (await ContinentsService.getContinents()).data;
             dispatch(receiveContinents(continents));
         } catch (error) {
             console.log(error);

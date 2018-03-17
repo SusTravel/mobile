@@ -16,6 +16,7 @@ import { Actions } from 'react-native-router-flux';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import BillingService from '../services/BillingService';
 import { fetchPlaces } from '../actions/Places';
+import { fetchPathes } from '../actions/Pathes';
 
 const styles = StyleSheet.create({
     container: {
@@ -45,6 +46,15 @@ const styles = StyleSheet.create({
 });
 
 class DetailsScreen extends Component {
+    componentDidMount() {
+        let details = Actions.state.routes[Actions.state.index].params;
+        let pointTo =
+            details.location.coordinates[0] + ',' + details.location.coordinates[1];
+        let pointFrom = this.props.pointFrom;
+
+        this.props.fetchPath(pointFrom, pointTo);
+    }
+
     onQrPress = details => {
         let id = details.id;
         let longitude = details.location.coordinates[0];
@@ -119,14 +129,22 @@ class DetailsScreen extends Component {
     }
 }
 
-const mapStateToProps = () => {
-    return {};
+const mapStateToProps = ({Location, Pathes}) => {
+    console.log(Pathes);
+    return {
+        pointFrom:
+            Location.location.coords.latitude + ',' + Location.location.coords.longitude,
+        pathes: Pathes.pathes
+    };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchPlaces: (longitude, latitude) => {
             return dispatch(fetchPlaces(longitude, latitude));
+        },
+        fetchPath: (pointFrom, pointTo) => {
+            return dispatch(fetchPathes(pointFrom, pointTo));
         }
     };
 };
