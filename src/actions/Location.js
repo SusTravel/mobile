@@ -1,3 +1,5 @@
+import { fetchPlaces } from './Places';
+
 const requestLocation = () => {
     return {
         type: 'REQUEST_LOCATION'
@@ -19,6 +21,8 @@ const fetchLocation = () => {
             navigator.geolocation.getCurrentPosition(
                 response => {
                     dispatch(receiveLocation(response));
+                    let coords = response.coords;
+                    dispatch(fetchPlaces(coords.longitude, coords.latitude))
                 },
                 reject => {}
             );
