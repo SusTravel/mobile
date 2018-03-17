@@ -24,21 +24,9 @@ const styles = StyleSheet.create({
 });
 
 class MainScreen extends Component {
-    // @todo check this shit
-    componentDidMount() {
-        if (!this.props.authenticated) {
-            Actions.login();
-        }
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (!newProps.authenticated) {
-            Actions.login();
-        }
-    }
-
     onPress = () => {
         sessionService.deleteSession();
+        Actions.login();
     };
     
     render() {

@@ -14,19 +14,20 @@ const AppRouter = props => {
         <Router>
             <Stack key="root">
                 <Scene
-                    key="main"
-                    component={MainScreen}
-                    title="Main"
-                    onEnter={this.authCheck}
-                    hideNavBar={true}
-                />
-                <Scene
                     key="login"
                     component={LoginScreen}
                     title="Login"
                     hideNavBar={true}
                     onEnter={this.loginAuthCheck}
                 />
+                <Scene
+                    key="main"
+                    component={MainScreen}
+                    title="Main"
+                    onEnter={this.authCheck}
+                    hideNavBar={true}
+                />
+
                 <Scene key="country" component={CountryScreen} onEnter={this.authCheck} />
                 <Scene key="map" component={MapScreen} onEnter={this.authCheck} />
                 <Scene key="profile" component={ProfileScreen} onEnter={this.authCheck} />
