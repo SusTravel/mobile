@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { LoginButton, AccessToken } from 'react-native-fbsdk';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View, ImageBackground } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { sessionService } from 'redux-react-native-session';
@@ -8,20 +8,20 @@ import { sessionService } from 'redux-react-native-session';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF'
+        backgroundColor: '#F5FCFF',
+        flexDirection: 'column',
     },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10
+    backgroundImage: {
+        top: 100,
+        resizeMode: 'cover',
+        height: 400
+        
     },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5
-    }
+    buttonContainer: {
+        bottom: 50
+    },
 });
 
 class LoginScreen extends Component {
@@ -46,18 +46,25 @@ class LoginScreen extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <LoginButton
-                    publishPermissions={['publish_actions']}
-                    onLoginFinished={this.loginFinished}
-                    onLogoutFinished={this.props.quitUser}
-                />
-            </View>
+            <ImageBackground
+                source={require('../images/login-bg.png')}
+                style={styles.container}
+                imageStyle={styles.backgroundImage}
+            >
+                <View style={styles.buttonContainer} >
+                    <LoginButton
+                        publishPermissions={['publish_actions']}
+                        onLoginFinished={this.loginFinished}
+                        onLogoutFinished={this.props.quitUser}
+                        style={styles.LoginButton}
+                    />
+                </View>
+            </ImageBackground>
         );
     }
 }
 
-const mapStateToProps = ({session}) => {
+const mapStateToProps = ({ session }) => {
     return {
         authenticated: session.authenticated
     };
