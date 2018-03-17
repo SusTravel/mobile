@@ -31,6 +31,11 @@ class MapScreen extends Component {
 
         this.props.fetchLocation();
     }
+
+    pressMarker = (place) => {
+        Actions.details(place);
+    }
+
     render() {
         let location = this.props.location;
 
@@ -48,14 +53,16 @@ class MapScreen extends Component {
                     longitudeDelta: 0.3821
                 }}
             >
-                {this.props.places.map(place => (
+                {this.props.places.map((place, i) => (
                     <Marker
+                        key={'marker' + i}
                         coordinate={{
                             latitude: place.location.coordinates[0],
                             longitude: place.location.coordinates[1],
                         }}
                         title={place.name}
                         description={place.description}
+                        onPress={() => { this.pressMarker(place) }}
                     />
                 ))}
             </MapView>
